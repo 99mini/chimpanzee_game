@@ -5,11 +5,13 @@ import 'package:chimpanzee_game/page/home.dart';
 import 'package:get/get.dart';
 
 class DetailController extends GetxController {
-  int _level = 1;
-  RxList<String> gameList = RxList<String>.filled(50, '');
-  final _delayTime = 3;
-  RxBool onGame = false.obs;
+  int level = 1;
   int _counter = 1;
+  final _delayTime = 3;
+
+  RxList<String> gameList = RxList<String>.filled(50, '');
+  RxBool onGame = false.obs;
+  RxDouble timeCount = 0.0.obs;
 
   @override
   void onInit() {
@@ -20,7 +22,7 @@ class DetailController extends GetxController {
   void initGame() {
     print("initGame");
     gameList = RxList<String>.filled(50, '');
-    for (int i = 1; i <= (_level ~/ 3) + 5; i++) {
+    for (int i = 1; i <= (level ~/ 3) + 5; i++) {
       int tmp = Random().nextInt(gameList.length);
       while (gameList[tmp] != '') {
         tmp = Random().nextInt(gameList.length);
@@ -36,15 +38,15 @@ class DetailController extends GetxController {
   void _delayTimer() async {
     Timer(Duration(seconds: _delayTime), () {
       onGame(true);
-      print('Done delay');
+      print('Start Game...Start Timer');
     });
   }
 
   void playGame(click) {
     if (_counter.toString() == click) {
-      if (_counter == (_level ~/ 3) + 5) {
-        print("complete level $_level");
-        _level++;
+      if (_counter == (level ~/ 3) + 5) {
+        print("complete level $level");
+        level++;
         Get.to(Home(), transition: Transition.noTransition);
       }
       print('correct...!');
@@ -52,7 +54,7 @@ class DetailController extends GetxController {
       _counter++;
     } else {
       print('fault...!');
-      _level = 1;
+      level = 1;
       Get.to(Home(), transition: Transition.noTransition);
     }
   }
