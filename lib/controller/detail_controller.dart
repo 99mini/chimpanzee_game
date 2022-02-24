@@ -9,9 +9,11 @@ class DetailController extends GetxController {
   int _counter = 1;
   final _delayTime = 3;
 
+  late var startTime;
+
   RxList<String> gameList = RxList<String>.filled(50, '');
   RxBool onGame = false.obs;
-  RxDouble timeCount = 0.0.obs;
+  double timeCount = 0.0;
 
   @override
   void onInit() {
@@ -32,29 +34,35 @@ class DetailController extends GetxController {
     }
     onGame(false);
     _counter = 1;
-    _delayTimer();
-  }
-
-  void _delayTimer() async {
-    Timer(Duration(seconds: _delayTime), () {
-      onGame(true);
-      print('Start Game...Start Timer');
-    });
+    startTime = DateTime.now().millisecondsSinceEpoch ~/ 10;
   }
 
   void playGame(click) {
     if (_counter.toString() == click) {
+      if (_counter.toString() == '1') {
+        onGame(true);
+        print('Start Game...Start Timer');
+      }
+      // 마지막 번호를 눌렀을 경우
       if (_counter == (level ~/ 3) + 5) {
         print("complete level $level");
         level++;
         Get.to(Home(), transition: Transition.noTransition);
+
+        var diffSecond =
+            (DateTime.now().millisecondsSinceEpoch ~/ 10 - startTime).toInt();
+        timeCount += diffSecond / 100;
       }
       print('correct...!');
       gameList[gameList.indexOf(click)] = '';
       _counter++;
+    } else if (onGame.isFalse) {
+      return;
     } else {
       print('fault...!');
+      // init setting value
       level = 1;
+      timeCount = 0;
       Get.to(Home(), transition: Transition.noTransition);
     }
   }

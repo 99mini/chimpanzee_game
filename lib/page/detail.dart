@@ -24,29 +24,31 @@ class Detail extends GetView<DetailController> {
           itemBuilder: (context, index) {
             return GestureDetector(
                 onTap: () {
-                  if (controller.onGame.isTrue &&
-                      controller.gameList[index] != '') {
+                  if (controller.gameList[index] != '') {
                     controller.playGame(controller.gameList[index]);
                     print(controller.gameList[index]);
                   }
                 },
                 child: Obx(
-                  () => Container(
-                    color: controller.onGame.isTrue &&
-                            controller.gameList[index] != ''
-                        ? Colors.white
-                        : Colors.black,
-                    child: Center(
-                      child: Text(
-                        "${controller.gameList[index]}",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 42,
+                  () => controller.onGame.isTrue &&
+                          controller.gameList[index] != ''
+                      ? Container(
+                          margin: const EdgeInsets.all(2),
                           color: Colors.white,
+                        )
+                      : Container(
+                          color: Colors.black,
+                          child: Center(
+                            child: Text(
+                              "${controller.gameList[index]}",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 42,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ));
           },
         ),
