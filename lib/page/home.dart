@@ -18,9 +18,29 @@ class Home extends GetView<DetailController> {
           ),
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Time: ${controller.timeCount}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Level: ${controller.level}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+                Spacer(),
                 GestureDetector(
                   onTap: () {
                     controller.initGame();
@@ -38,25 +58,6 @@ class Home extends GetView<DetailController> {
                     ),
                   ),
                 ),
-                Spacer(),
-                Column(
-                  children: [
-                    Text(
-                      'Time: ${controller.timeCount}',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      'Level: ${controller.level}',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
-                )
               ],
             ),
           ),
