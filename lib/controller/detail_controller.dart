@@ -7,11 +7,12 @@ import 'package:get/get.dart';
 class DetailController extends GetxController {
   int level = 1;
   int _counter = 1;
+
   final _delayTime = 3;
 
   late var startTime;
 
-  RxList<String> gameList = RxList<String>.filled(50, '');
+  RxList<String> gameList = RxList<String>.filled(40, '');
   RxBool onGame = false.obs;
   double timeCount = 0.0;
 
@@ -23,8 +24,10 @@ class DetailController extends GetxController {
 
   void initGame() {
     print("initGame");
-    gameList = RxList<String>.filled(50, '');
-    for (int i = 1; i <= (level ~/ 3) + 5; i++) {
+    gameList = RxList<String>.filled(40, '');
+    int number_count = min((level ~/ 3) + 5, 20);
+
+    for (int i = 1; i <= number_count; i++) {
       int tmp = Random().nextInt(gameList.length);
       while (gameList[tmp] != '') {
         tmp = Random().nextInt(gameList.length);
@@ -44,13 +47,15 @@ class DetailController extends GetxController {
         print('Start Game...Start Timer');
       }
       // 마지막 번호를 눌렀을 경우
-      if (_counter == (level ~/ 3) + 5) {
+      int number_count = min((level ~/ 3) + 5, 20);
+      if (_counter == number_count) {
         print("complete level $level");
         level++;
         Get.to(Home(), transition: Transition.noTransition);
 
         var diffSecond =
-            (DateTime.now().millisecondsSinceEpoch ~/ 10 - startTime).toInt();
+            (DateTime.now().millisecondsSinceEpoch ~/ 10 - startTime)
+                .toDouble();
         timeCount += diffSecond / 100;
       }
       print('correct...!');
