@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:chimpanzee_game/page/home.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../component/result_component.dart';
 
 class DetailController extends GetxController {
   int level = 1;
@@ -65,10 +68,22 @@ class DetailController extends GetxController {
       return;
     } else {
       print('fault...!');
-      // init setting value
-      level = 1;
-      timeCount = 0;
-      Get.to(Home(), transition: Transition.noTransition);
+      var diffSecond =
+          (DateTime.now().millisecondsSinceEpoch ~/ 10 - startTime).toDouble();
+      timeCount += diffSecond / 100;
+
+      Get.defaultDialog(
+          title: "Game Over",
+          titleStyle: TextStyle(),
+          content: ResultComponent(
+            level: level - 1,
+            time: timeCount,
+          ),
+          onConfirm: () {
+            level = 1;
+            timeCount = 0;
+            Get.to(Home(), transition: Transition.noTransition);
+          });
     }
   }
 }

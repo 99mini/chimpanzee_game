@@ -26,21 +26,21 @@ class Home extends GetView<DetailController> {
                   children: [
                     Text(
                       'Time: ${controller.timeCount}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         color: Colors.white,
                       ),
                     ),
                     Text(
                       'Level: ${controller.level}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         color: Colors.white,
                       ),
                     )
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     controller.initGame();
