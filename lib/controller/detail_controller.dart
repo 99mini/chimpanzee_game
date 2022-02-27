@@ -11,9 +11,7 @@ class DetailController extends GetxController {
   int level = 1;
   int _counter = 1;
 
-  final _delayTime = 3;
-
-  late var startTime;
+  late var _startTime;
 
   RxList<String> gameList = RxList<String>.filled(40, '');
   RxBool onGame = false.obs;
@@ -40,7 +38,7 @@ class DetailController extends GetxController {
     }
     onGame(false);
     _counter = 1;
-    startTime = DateTime.now().millisecondsSinceEpoch ~/ 10;
+    _startTime = DateTime.now().millisecondsSinceEpoch ~/ 10;
   }
 
   void playGame(click) {
@@ -57,7 +55,7 @@ class DetailController extends GetxController {
         Get.to(Home(), transition: Transition.noTransition);
 
         var diffSecond =
-            (DateTime.now().millisecondsSinceEpoch ~/ 10 - startTime)
+            (DateTime.now().millisecondsSinceEpoch ~/ 10 - _startTime)
                 .toDouble();
         timeCount += diffSecond / 100;
       }
@@ -69,21 +67,42 @@ class DetailController extends GetxController {
     } else {
       print('fault...!');
       var diffSecond =
-          (DateTime.now().millisecondsSinceEpoch ~/ 10 - startTime).toDouble();
+          (DateTime.now().millisecondsSinceEpoch ~/ 10 - _startTime).toDouble();
       timeCount += diffSecond / 100;
 
       Get.defaultDialog(
-          title: "Game Over",
-          titleStyle: TextStyle(),
-          content: ResultComponent(
-            level: level - 1,
-            time: timeCount,
-          ),
-          onConfirm: () {
+        title: "Game Over",
+        titleStyle: TextStyle(),
+        barrierDismissible: false,
+        content: ResultComponent(
+          level: level - 1,
+          time: timeCount,
+        ),
+        confirm: GestureDetector(
+          onTap: () {
             level = 1;
             timeCount = 0;
             Get.to(Home(), transition: Transition.noTransition);
-          });
+          },
+          child: Container(
+            width: Get.width * 0.2,
+            height: Get.width * 0.1,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.black,
+            ),
+            child: const Center(
+              child: Text(
+                "Restart",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
     }
   }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "943526524659",
+    "project_id": "chimpanzee-game",
+    "storage_bucket": "chimpanzee-game.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943526524659:android:e215c132e0ca40a785a986",
+        "android_client_info": {
+          "package_name": "com.example.chimpanzee_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943526524659-mfkst4c35o2fbc6igmeuhhrqjhaddo5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM4xh34kOOBB8F11oI9BGS2Dc8Iy569H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943526524659-mfkst4c35o2fbc6igmeuhhrqjhaddo5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
