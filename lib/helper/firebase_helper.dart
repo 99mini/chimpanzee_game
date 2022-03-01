@@ -1,27 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseHelper {
-  final String collectionPath = 'results';
-
-  final String fnLevel = 'level';
-  final String fnTime = 'time';
-
-  void createDoc(int level, double time) {
-    FirebaseFirestore.instance.collection(collectionPath).add({
-      fnLevel: level,
-      fnTime: time,
+  static void createDoc({required int level, required double time}) {
+    FirebaseFirestore.instance.collection('results').add({
+      'level': level,
+      'time': time,
     });
   }
 
-  Future<DocumentSnapshot<Object?>> readDoc(String docID) async {
-    var documentSnapshot = await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(docID)
-        .get();
-    return documentSnapshot;
+  static Stream<QuerySnapshot<Map<String, dynamic>>> readDocs() {
+    var querySnapshot = FirebaseFirestore.instance
+        .collection('results')
+        .orderBy('level', descending: true)
+        .orderBy('time')
+        .snapshots();
+    return querySnapshot;
   }
 
-  void deleteDoc(String docID) {
-    FirebaseFirestore.instance.collection(collectionPath).doc(docID).delete();
+  static void deleteDoc({required String docID}) {
+    FirebaseFirestore.instance.collection('results').doc(docID).delete();
   }
 }

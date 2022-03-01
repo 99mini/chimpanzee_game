@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:chimpanzee_game/helper/firebase_helper.dart';
 import 'package:chimpanzee_game/page/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class DetailController extends GetxController {
     }
     onGame(false);
     _counter = 1;
-    _startTime = DateTime.now().millisecondsSinceEpoch ~/ 10;
+    _startTime = DateTime.now().millisecondsSinceEpoch ~/ 100;
   }
 
   void playGame(click) {
@@ -56,7 +57,7 @@ class DetailController extends GetxController {
         Get.to(Home(), transition: Transition.noTransition);
 
         var diffSecond =
-            (DateTime.now().millisecondsSinceEpoch ~/ 10 - _startTime)
+            (DateTime.now().millisecondsSinceEpoch ~/ 100 - _startTime)
                 .toDouble();
         timeCount += diffSecond / 100;
       }
@@ -65,12 +66,15 @@ class DetailController extends GetxController {
       _counter++;
     } else if (onGame.isFalse) {
       return;
+
+      //틀릴 경우
     } else {
       print('fault...!');
       var diffSecond =
-          (DateTime.now().millisecondsSinceEpoch ~/ 10 - _startTime).toDouble();
+          (DateTime.now().millisecondsSinceEpoch ~/ 100 - _startTime)
+              .toDouble();
       timeCount += diffSecond / 100;
-
+      FirebaseHelper.createDoc(level: level, time: timeCount);
       _showResultDialog();
     }
   }
@@ -105,10 +109,7 @@ class DetailController extends GetxController {
               ),
             ],
           ),
-          ResultComponent(
-            level: level - 1,
-            time: timeCount,
-          ),
+          ResultComponent(),
         ],
       ),
       confirm: GestureDetector(

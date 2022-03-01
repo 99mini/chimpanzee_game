@@ -1,16 +1,10 @@
+import 'package:chimpanzee_game/helper/firebase_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ResultComponent extends StatelessWidget {
-  final int level;
-  final double time;
-
-  const ResultComponent({
-    Key? key,
-    required this.level,
-    required this.time,
-  }) : super(key: key);
+  const ResultComponent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +16,7 @@ class ResultComponent extends StatelessWidget {
           color: Colors.white,
         ),
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('results').snapshots(),
+          stream: FirebaseHelper.readDocs(),
           builder: (context, snapshot) {
             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
             switch (snapshot.connectionState) {
