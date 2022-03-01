@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:chimpanzee_game/page/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -70,39 +71,70 @@ class DetailController extends GetxController {
           (DateTime.now().millisecondsSinceEpoch ~/ 10 - _startTime).toDouble();
       timeCount += diffSecond / 100;
 
-      Get.defaultDialog(
-        title: "Game Over",
-        titleStyle: TextStyle(),
-        barrierDismissible: false,
-        content: ResultComponent(
-          level: level - 1,
-          time: timeCount,
-        ),
-        confirm: GestureDetector(
-          onTap: () {
-            level = 1;
-            timeCount = 0;
-            Get.to(Home(), transition: Transition.noTransition);
-          },
-          child: Container(
-            width: Get.width * 0.2,
-            height: Get.width * 0.1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.black,
-            ),
-            child: const Center(
-              child: Text(
-                "Restart",
+      _showResultDialog();
+    }
+  }
+
+  void _showResultDialog() {
+    Get.defaultDialog(
+      title: "Game Over",
+      titleStyle: TextStyle(),
+      barrierDismissible: false,
+      content: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: const [
+              Text(
+                'Rank',
                 style: TextStyle(
-                  color: Colors.white,
                   fontSize: 18,
                 ),
+              ),
+              Text(
+                'Level',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                'Time',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+          ResultComponent(
+            level: level - 1,
+            time: timeCount,
+          ),
+        ],
+      ),
+      confirm: GestureDetector(
+        onTap: () {
+          level = 1;
+          timeCount = 0;
+          Get.to(Home(), transition: Transition.noTransition);
+        },
+        child: Container(
+          width: Get.width * 0.2,
+          height: Get.width * 0.1,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.black,
+          ),
+          child: const Center(
+            child: Text(
+              "Restart",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
               ),
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 }
