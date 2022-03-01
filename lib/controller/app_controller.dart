@@ -1,15 +1,13 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:chimpanzee_game/helper/firebase_helper.dart';
 import 'package:chimpanzee_game/page/home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../component/result_component.dart';
 
-class DetailController extends GetxController {
+class AppController extends GetxController {
   int level = 1;
   int _counter = 1;
 
@@ -40,7 +38,7 @@ class DetailController extends GetxController {
     }
     onGame(false);
     _counter = 1;
-    _startTime = DateTime.now().millisecondsSinceEpoch ~/ 100;
+    _startTime = DateTime.now().millisecondsSinceEpoch;
   }
 
   void playGame(click) {
@@ -57,9 +55,8 @@ class DetailController extends GetxController {
         Get.to(Home(), transition: Transition.noTransition);
 
         var diffSecond =
-            (DateTime.now().millisecondsSinceEpoch ~/ 100 - _startTime)
-                .toDouble();
-        timeCount += diffSecond / 100;
+            (DateTime.now().millisecondsSinceEpoch - _startTime).toDouble();
+        timeCount += diffSecond.floor() / 1000;
       }
       print('correct...!');
       gameList[gameList.indexOf(click)] = '';
@@ -71,19 +68,25 @@ class DetailController extends GetxController {
     } else {
       print('fault...!');
       var diffSecond =
-          (DateTime.now().millisecondsSinceEpoch ~/ 100 - _startTime)
-              .toDouble();
-      timeCount += diffSecond / 100;
+          (DateTime.now().millisecondsSinceEpoch - _startTime).toDouble();
+      timeCount += diffSecond.floor() / 1000;
       FirebaseHelper.createDoc(level: level, time: timeCount);
-      _showResultDialog();
+      showResultDialog(
+        title: "Game Over",
+        confirmTitle: "Restart",
+        barrierDismissible: false,
+      );
     }
   }
 
-  void _showResultDialog() {
+  void showResultDialog(
+      {required String title,
+      required bool barrierDismissible,
+      String? confirmTitle}) {
     Get.defaultDialog(
-      title: "Game Over",
+      title: title,
       titleStyle: TextStyle(),
-      barrierDismissible: false,
+      barrierDismissible: barrierDismissible,
       content: Column(
         children: [
           Row(
@@ -118,23 +121,25 @@ class DetailController extends GetxController {
           timeCount = 0;
           Get.to(Home(), transition: Transition.noTransition);
         },
-        child: Container(
-          width: Get.width * 0.2,
-          height: Get.width * 0.1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.black,
-          ),
-          child: const Center(
-            child: Text(
-              "Restart",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
+        child: !barrierDismissible
+            ? Container(
+                width: Get.width * 0.2,
+                height: Get.width * 0.1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black,
+                ),
+                child: Center(
+                  child: Text(
+                    confirmTitle!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              )
+            : Container(),
       ),
     );
   }

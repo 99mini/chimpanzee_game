@@ -21,7 +21,7 @@ class ResultComponent extends StatelessWidget {
             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return Text("Loading...");
+                return const Text("Loading...");
               default:
                 return ListView.builder(
                     itemCount: snapshot.data!.docs.length,

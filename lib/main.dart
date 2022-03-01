@@ -1,7 +1,8 @@
 import 'package:chimpanzee_game/binding/init_binding.dart';
-import 'package:chimpanzee_game/firebase_options.dart';
+import 'package:chimpanzee_game/helper/firebase_options.dart';
 import 'package:chimpanzee_game/page/detail.dart';
 import 'package:chimpanzee_game/page/home.dart';
+import 'package:chimpanzee_game/page/setting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,15 +25,23 @@ class MyApp extends StatelessWidget {
       title: 'chimpanzee game',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
       ),
       initialBinding: InitBinding(),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => Home()),
+        GetPage(
+          name: '/',
+          page: () => Home(),
+        ),
         GetPage(
           name: '/detail',
           page: () => Detail(),
-        )
+        ),
+        GetPage(
+          name: '/setting',
+          page: () => Setting(),
+        ),
       ],
     );
   }

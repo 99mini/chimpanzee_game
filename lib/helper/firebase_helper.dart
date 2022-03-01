@@ -20,4 +20,12 @@ class FirebaseHelper {
   static void deleteDoc({required String docID}) {
     FirebaseFirestore.instance.collection('results').doc(docID).delete();
   }
+
+  static void deleteAllDocs() {
+    FirebaseFirestore.instance.collection('results').get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
+  }
 }

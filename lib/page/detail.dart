@@ -1,8 +1,8 @@
-import 'package:chimpanzee_game/controller/detail_controller.dart';
+import 'package:chimpanzee_game/controller/app_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Detail extends GetView<DetailController> {
+class Detail extends GetView<AppController> {
   const Detail({Key? key}) : super(key: key);
 
   @override
