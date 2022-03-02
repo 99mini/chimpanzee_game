@@ -54,6 +54,8 @@ class AppController extends GetxController {
     );
   }
 
+  double _fixDecimalPoint(double num) => double.parse(num.toStringAsFixed(3));
+
   @override
   void onInit() {
     print(onGame);
@@ -95,6 +97,7 @@ class AppController extends GetxController {
         var diffSecond =
             (DateTime.now().millisecondsSinceEpoch - _startTime).toInt();
         timeCount += diffSecond.floor() / 1000;
+        timeCount = _fixDecimalPoint(timeCount);
       }
       print('correct...!');
       gameList[gameList.indexOf(click)] = '';
@@ -102,13 +105,9 @@ class AppController extends GetxController {
       // 1번을 누르지 않아 게임이 시작되지 않은 경우
     } else if (onGame.isFalse) {
       return;
-
       // 틀린 경우
     } else {
       print('fault...!');
-      var diffSecond =
-          (DateTime.now().millisecondsSinceEpoch - _startTime).toInt();
-      timeCount += diffSecond.floor() / 1000;
       // 파이어 베이스에 기록 쓰기
       FirebaseHelper.createDoc(
         level: level,
