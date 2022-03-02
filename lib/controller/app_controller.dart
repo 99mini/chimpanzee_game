@@ -13,7 +13,7 @@ class AppController extends GetxController {
 
   late var _startTime;
 
-  RxList<String> gameList = RxList<String>.filled(40, '');
+  late RxList<String> gameList;
   RxBool onGame = false.obs;
   double timeCount = 0.0;
 
@@ -42,6 +42,7 @@ class AppController extends GetxController {
   }
 
   void playGame(click) {
+    // 1번을 클릭한 경우 게임 시작
     if (_counter.toString() == click) {
       if (_counter.toString() == '1') {
         onGame(true);
@@ -61,16 +62,19 @@ class AppController extends GetxController {
       print('correct...!');
       gameList[gameList.indexOf(click)] = '';
       _counter++;
+      // 1번을 누르지 않아 게임이 시작되지 않은 경우
     } else if (onGame.isFalse) {
       return;
 
-      //틀릴 경우
+      // 틀린 경우
     } else {
       print('fault...!');
       var diffSecond =
           (DateTime.now().millisecondsSinceEpoch - _startTime).toDouble();
       timeCount += diffSecond.floor() / 1000;
+      // 파이어 베이스에 기록 쓰기
       FirebaseHelper.createDoc(level: level, time: timeCount);
+      // 결과창 보여주기
       showResultDialog(
         title: "Game Over",
         confirmTitle: "Restart",
@@ -79,6 +83,7 @@ class AppController extends GetxController {
     }
   }
 
+  // 결과창 다이얼로그
   void showResultDialog(
       {required String title,
       required bool barrierDismissible,

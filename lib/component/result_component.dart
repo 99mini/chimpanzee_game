@@ -15,13 +15,15 @@ class ResultComponent extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
         ),
+        // display docs order by rank
+        // TODO 간격 맞추기
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseHelper.readDocs(),
           builder: (context, snapshot) {
             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return const Text("Loading...");
+                return const Center(child: Text("Loading..."));
               default:
                 return ListView.builder(
                     itemCount: snapshot.data!.docs.length,

@@ -19,6 +19,7 @@ class Home extends GetView<AppController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // 현재 진행중인 게임의 레벨과 타임
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -38,6 +39,7 @@ class Home extends GetView<AppController> {
                     )
                   ],
                 ),
+                // 세팅 아이콘
                 IconButton(
                   onPressed: () {
                     Get.to(
@@ -54,6 +56,7 @@ class Home extends GetView<AppController> {
               ],
             ),
             const Spacer(),
+            // 게임 시작 버튼
             GestureDetector(
               onTap: () {
                 controller.initGame();

@@ -23,12 +23,14 @@ class Detail extends GetView<AppController> {
             return GestureDetector(
               onTap: () {
                 if (controller.gameList[index] != '') {
-                  controller.playGame(controller.gameList[index]);
                   print(controller.gameList[index]);
+                  controller.playGame(controller.gameList[index]);
                 }
               },
               child: Obx(
                 () =>
+                    // game이 시작되었으면 컨테이너를 흰색으로 채우고
+                    // 시작되기 전이면 숫자가 보이게 한다
                     controller.onGame.isTrue && controller.gameList[index] != ''
                         ? Container(
                             margin: const EdgeInsets.all(4),
