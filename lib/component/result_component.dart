@@ -6,6 +6,19 @@ import 'package:get/get.dart';
 class ResultComponent extends StatelessWidget {
   const ResultComponent({Key? key}) : super(key: key);
 
+  Widget _resultTextBox({required String text}) {
+    return Expanded(
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +29,6 @@ class ResultComponent extends StatelessWidget {
           color: Colors.white,
         ),
         // display docs order by rank
-        // TODO 간격 맞추기
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseHelper.readDocs(),
           builder: (context, snapshot) {
@@ -29,25 +41,15 @@ class ResultComponent extends StatelessWidget {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text(
-                            '${index + 1}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                          _resultTextBox(
+                            text: '${index + 1}',
                           ),
-                          Text(
-                            '${snapshot.data!.docs[index]['level']}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                          _resultTextBox(
+                            text: '${snapshot.data!.docs[index]['level']}',
                           ),
-                          Text(
-                            '${snapshot.data!.docs[index]['time']}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                          _resultTextBox(
+                            text: '${snapshot.data!.docs[index]['time']}',
                           ),
                         ],
                       );

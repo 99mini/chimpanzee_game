@@ -17,6 +17,43 @@ class AppController extends GetxController {
   RxBool onGame = false.obs;
   double timeCount = 0.0;
 
+  Widget _dialogColText({
+    required String title,
+  }) {
+    return Expanded(
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _latelyResult() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(
+          color: Colors.black,
+          width: 1.0,
+          style: BorderStyle.solid,
+        ),
+      ),
+      child: Row(
+        children: [
+          _dialogColText(title: ''),
+          _dialogColText(title: '$level'),
+          _dialogColText(title: '$timeCount'),
+        ],
+      ),
+    );
+  }
+
   @override
   void onInit() {
     print(onGame);
@@ -56,7 +93,7 @@ class AppController extends GetxController {
         Get.to(Home(), transition: Transition.noTransition);
 
         var diffSecond =
-            (DateTime.now().millisecondsSinceEpoch - _startTime).toDouble();
+            (DateTime.now().millisecondsSinceEpoch - _startTime).toInt();
         timeCount += diffSecond.floor() / 1000;
       }
       print('correct...!');
@@ -70,54 +107,45 @@ class AppController extends GetxController {
     } else {
       print('fault...!');
       var diffSecond =
-          (DateTime.now().millisecondsSinceEpoch - _startTime).toDouble();
+          (DateTime.now().millisecondsSinceEpoch - _startTime).toInt();
       timeCount += diffSecond.floor() / 1000;
       // 파이어 베이스에 기록 쓰기
-      FirebaseHelper.createDoc(level: level, time: timeCount);
+      FirebaseHelper.createDoc(
+        level: level,
+        time: timeCount,
+      );
       // 결과창 보여주기
       showResultDialog(
         title: "Game Over",
         confirmTitle: "Restart",
         barrierDismissible: false,
+        onResultDialog: true,
       );
     }
   }
 
   // 결과창 다이얼로그
-  void showResultDialog(
-      {required String title,
-      required bool barrierDismissible,
-      String? confirmTitle}) {
+  void showResultDialog({
+    required String title,
+    required bool barrierDismissible,
+    String? confirmTitle,
+    bool? onResultDialog = false,
+  }) {
     Get.defaultDialog(
       title: title,
-      titleStyle: TextStyle(),
+      titleStyle: const TextStyle(),
       barrierDismissible: barrierDismissible,
       content: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              Text(
-                'Rank',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              Text(
-                'Level',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              Text(
-                'Time',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+            children: [
+              _dialogColText(title: 'Rank'),
+              _dialogColText(title: 'Level'),
+              _dialogColText(title: 'Time'),
             ],
           ),
-          ResultComponent(),
+          onResultDialog! ? _latelyResult() : Container(),
+          const ResultComponent(),
         ],
       ),
       confirm: GestureDetector(
