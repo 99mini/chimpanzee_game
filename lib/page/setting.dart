@@ -1,10 +1,11 @@
-import 'package:chimpanzee_game/controller/app_controller.dart';
-import 'package:chimpanzee_game/helper/firebase_helper.dart';
+import 'package:chimpanzee_game/component/reset_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
-class Setting extends GetView<AppController> {
+import '../component/record_history_dialog.dart';
+
+class Setting extends StatelessWidget {
   const Setting({Key? key}) : super(key: key);
 
   Widget _selectBtn({
@@ -27,60 +28,10 @@ class Setting extends GetView<AppController> {
     );
   }
 
-  Widget _dialogBtn({
-    required String title,
-    required Function onTap,
-    Color? containerColor = Colors.blue,
-  }) {
-    return GestureDetector(
-      onTap: () => onTap(),
-      child: Container(
-        decoration: BoxDecoration(
-          color: containerColor,
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _dialogBottomBtns(
-      {required String confrimText, required String cancelText}) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 5,
-          child: _dialogBtn(
-            title: cancelText,
-            onTap: () {
-              FirebaseHelper.deleteAllDocs();
-              Get.back();
-            },
-            containerColor: Colors.red,
-          ),
-        ),
-        Expanded(
-          flex: 9,
-          child: _dialogBtn(
-            title: confrimText,
-            onTap: () => Get.back(),
-          ),
-        ),
-      ],
-    );
-  }
-
   // login btn card
   Widget _loginCard() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Get.toNamed('login'),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
@@ -107,62 +58,56 @@ class Setting extends GetView<AppController> {
     );
   }
 
-  // dialog component
-  Widget _dialogComponent({required String subtitle}) {
-    return Container(
-      width: Get.width * 0.5,
-      height: Get.width * 0.3,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-      ),
-      child:
-          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Expanded(
-          flex: 5,
-          child: Center(
-            child: Text(
-              subtitle,
-              style: const TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: _dialogBottomBtns(
-            cancelText: 'Delete',
-            confrimText: 'Close',
-          ),
-        ),
-      ]),
-    );
+  Widget _profileCard() {
+    return Card();
   }
 
   // delete record history dialog
   void _showWarningDialog() {
     Get.dialog(
-      Dialog(
-        child: _dialogComponent(
-          subtitle: 'Are you really want to delete?',
-        ),
+      const Dialog(
+        child: ResetDialog(),
+      ),
+    );
+  }
+
+  void _showRecordHistoryDialog() {
+    Get.dialog(
+      const Dialog(
+        child: ResultHistoryDialog(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: IconButton(
+              onPressed: () => Get.back(),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+                size: 24,
+              )),
+        ),
+      ),
       body: Container(
         margin: const EdgeInsets.all(20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          _loginCard(),
+          // StreamBuilder(builder: (context, snapshot) {
+          //   if (!snapshot.hasData) {
+          //     return _loginCard();
+          //   } else {
+          //     return _profileCard();
+          //   }
+          // }),
           _selectBtn(
-            onTap: () => controller.showResultDialog(
-              title: 'Record',
-              barrierDismissible: true,
-            ),
+            onTap: () => _showRecordHistoryDialog(),
             title: 'Record',
           ),
           _selectBtn(

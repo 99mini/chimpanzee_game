@@ -14,6 +14,7 @@ class Detail extends GetView<AppController> {
         color: Colors.black,
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //TODO crossAxisCount 반응형으로 조정하기
               crossAxisCount: 5,
               childAspectRatio: 1 / 1,
               mainAxisSpacing: 0,

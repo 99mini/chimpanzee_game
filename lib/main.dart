@@ -2,6 +2,7 @@ import 'package:chimpanzee_game/binding/init_binding.dart';
 import 'package:chimpanzee_game/helper/firebase_options.dart';
 import 'package:chimpanzee_game/page/detail.dart';
 import 'package:chimpanzee_game/page/home.dart';
+import 'package:chimpanzee_game/page/login.dart';
 import 'package:chimpanzee_game/page/setting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/setting',
           page: () => Setting(),
+        ),
+        GetPage(
+          name: '/login',
+          page: () => Login(),
         ),
       ],
     );

@@ -1,11 +1,10 @@
 import 'dart:math';
 
+import 'package:chimpanzee_game/component/result_dialog.dart';
 import 'package:chimpanzee_game/helper/firebase_helper.dart';
 import 'package:chimpanzee_game/page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../component/result_component.dart';
 
 class AppController extends GetxController {
   int level = 1;
@@ -17,44 +16,33 @@ class AppController extends GetxController {
   RxBool onGame = false.obs;
   double timeCount = 0.0;
 
-  Widget _dialogColText({
-    required String title,
-  }) {
-    return Expanded(
-      child: Center(
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _latelyResult() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-          color: Colors.black,
-          width: 1.0,
-          style: BorderStyle.solid,
-        ),
-      ),
-      child: Row(
-        children: [
-          _dialogColText(title: ''),
-          _dialogColText(title: '$level'),
-          _dialogColText(title: '$timeCount'),
-        ],
-      ),
-    );
-  }
-
   double _fixDecimalPoint(double num) => double.parse(num.toStringAsFixed(3));
+
+  Widget _confirmBtn() {
+    return TextButton(
+      onPressed: () => Get.to(
+        const Home(),
+        transition: Transition.noTransition,
+      ),
+      child: const Text(
+        'Restart',
+      ),
+    );
+  }
+
+  void _showResultDialog() {
+    print('showResultDialog');
+    print(level);
+    print(timeCount);
+    Get.dialog(
+      Dialog(
+        child: ResultDialog(
+          level: level,
+          timeCount: timeCount,
+        ),
+      ),
+    );
+  }
 
   @override
   void onInit() {
@@ -113,66 +101,10 @@ class AppController extends GetxController {
         level: level,
         time: timeCount,
       );
-      // 결과창 보여주기
-      showResultDialog(
-        title: "Game Over",
-        confirmTitle: "Restart",
-        barrierDismissible: false,
-        onResultDialog: true,
-      );
-    }
-  }
+      // TODO 결과창 보여주기
+      _showResultDialog();
 
-  // 결과창 다이얼로그
-  void showResultDialog({
-    required String title,
-    required bool barrierDismissible,
-    String? confirmTitle,
-    bool? onResultDialog = false,
-  }) {
-    Get.defaultDialog(
-      title: title,
-      titleStyle: const TextStyle(),
-      barrierDismissible: barrierDismissible,
-      content: Column(
-        children: [
-          Row(
-            children: [
-              _dialogColText(title: 'Rank'),
-              _dialogColText(title: 'Level'),
-              _dialogColText(title: 'Time'),
-            ],
-          ),
-          onResultDialog! ? _latelyResult() : Container(),
-          const ResultComponent(),
-        ],
-      ),
-      confirm: GestureDetector(
-        onTap: () {
-          level = 1;
-          timeCount = 0;
-          Get.to(Home(), transition: Transition.noTransition);
-        },
-        child: !barrierDismissible
-            ? Container(
-                width: Get.width * 0.2,
-                height: Get.width * 0.1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.black,
-                ),
-                child: Center(
-                  child: Text(
-                    confirmTitle!,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              )
-            : Container(),
-      ),
-    );
+      // Get.to(Home(), transition: Transition.noTransition);
+    }
   }
 }
