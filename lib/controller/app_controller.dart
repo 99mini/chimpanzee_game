@@ -36,10 +36,7 @@ class AppController extends GetxController {
     print(timeCount);
     Get.dialog(
       Dialog(
-        child: ResultDialog(
-          level: level,
-          timeCount: timeCount,
-        ),
+        child: ResultDialog(),
       ),
     );
   }
@@ -103,8 +100,6 @@ class AppController extends GetxController {
       );
       // TODO 결과창 보여주기
       _showResultDialog();
-
-      // Get.to(Home(), transition: Transition.noTransition);
     }
   }
 }
