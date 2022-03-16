@@ -67,27 +67,29 @@ class ResetDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
       ),
-      child:
-          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        const Expanded(
-          flex: 5,
-          child: Center(
-            child: Text(
-              'Are you really want to delete?',
-              style: TextStyle(
-                fontSize: 20,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Expanded(
+            flex: 5,
+            child: Center(
+              child: Text(
+                'Are you really want to delete?',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: _dialogBottomBtns(
-            cancelText: 'Delete',
-            confrimText: 'Close',
+          Expanded(
+            flex: 2,
+            child: _dialogBottomBtns(
+              cancelText: 'Delete',
+              confrimText: 'Close',
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

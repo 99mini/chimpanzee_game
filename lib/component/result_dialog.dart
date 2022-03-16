@@ -58,18 +58,20 @@ class ResultDialog extends GetView<AppController> {
       margin: const EdgeInsets.all(20),
       width: Get.width * 0.7,
       height: Get.height * 0.5,
-      child: Column(children: [
-        _resultRow(
-          title: 'Level',
-          value: '${controller.level}',
-        ),
-        _resultRow(
-          title: 'Time',
-          value: '${controller.timeCount}',
-        ),
-        const Spacer(),
-        _confirmBtn(),
-      ]),
+      child: Column(
+        children: [
+          _resultRow(
+            title: 'Level',
+            value: '${controller.level}',
+          ),
+          _resultRow(
+            title: 'Time',
+            value: '${controller.timeCount}',
+          ),
+          const Spacer(),
+          _confirmBtn(),
+        ],
+      ),
     );
   }
 }

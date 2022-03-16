@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'chimpanzee game',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
@@ -33,19 +34,19 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () => Home(),
+          page: () => const Home(),
         ),
         GetPage(
           name: '/detail',
-          page: () => Detail(),
+          page: () => const Detail(),
         ),
         GetPage(
           name: '/setting',
-          page: () => Setting(),
+          page: () => const Setting(),
         ),
         GetPage(
           name: '/login',
-          page: () => Login(),
+          page: () => const Login(),
         ),
       ],
     );

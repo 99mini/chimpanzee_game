@@ -18,37 +18,15 @@ class AppController extends GetxController {
 
   double _fixDecimalPoint(double num) => double.parse(num.toStringAsFixed(3));
 
-  Widget _confirmBtn() {
-    return TextButton(
-      onPressed: () => Get.to(
-        const Home(),
-        transition: Transition.noTransition,
-      ),
-      child: const Text(
-        'Restart',
-      ),
-    );
-  }
-
   void _showResultDialog() {
-    print('showResultDialog');
-    print(level);
-    print(timeCount);
     Get.dialog(
-      Dialog(
+      const Dialog(
         child: ResultDialog(),
       ),
     );
   }
 
-  @override
-  void onInit() {
-    print(onGame);
-    super.onInit();
-  }
-
   void initGame() {
-    print("initGame");
     gameList = RxList<String>.filled(40, '');
     int number_count = min((level ~/ 3) + 5, 20);
 
@@ -57,7 +35,7 @@ class AppController extends GetxController {
       while (gameList[tmp] != '') {
         tmp = Random().nextInt(gameList.length);
       }
-      print(tmp);
+
       gameList[tmp] = '$i';
     }
     onGame(false);
@@ -70,21 +48,21 @@ class AppController extends GetxController {
     if (_counter.toString() == click) {
       if (_counter.toString() == '1') {
         onGame(true);
-        print('Start Game...Start Timer');
       }
       // 마지막 번호를 눌렀을 경우
       int number_count = min((level ~/ 3) + 5, 20);
       if (_counter == number_count) {
-        print("complete level $level");
         level++;
-        Get.to(Home(), transition: Transition.noTransition);
+        Get.to(
+          const Home(),
+          transition: Transition.noTransition,
+        );
 
         var diffSecond =
             (DateTime.now().millisecondsSinceEpoch - _startTime).toInt();
         timeCount += diffSecond.floor() / 1000;
         timeCount = _fixDecimalPoint(timeCount);
       }
-      print('correct...!');
       gameList[gameList.indexOf(click)] = '';
       _counter++;
       // 1번을 누르지 않아 게임이 시작되지 않은 경우
@@ -92,13 +70,12 @@ class AppController extends GetxController {
       return;
       // 틀린 경우
     } else {
-      print('fault...!');
       // 파이어 베이스에 기록 쓰기
       FirebaseHelper.createDoc(
         level: level,
         time: timeCount,
       );
-      // TODO 결과창 보여주기
+
       _showResultDialog();
     }
   }
