@@ -1,16 +1,27 @@
-# chimpanzee_game
+# chimpanzee_game 침팬지 게임
 
-A new Flutter project.
+## 개요
 
-## Getting Started
+기억력 게임 중 하나인 침팬지 게임입니다. 데이터 베이스에 클리어한 단계와 클리어한 시간이 저장되어 순위를 확인할 수 있습니다.
 
-This project is a starting point for a Flutter application.
+## 팀
 
-A few resources to get you started if this is your first Flutter project:
+개인 토이 프로젝트
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## 기간
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+22.02.23 ~ 03.16
+
+## 💡 사용법
+
+1. 좌측 하단 빈 동그라미를 클릭한다.
+2. 숫자가 랜덤하게 등장한다. 사용자는 숫자를 오름차순으로 기억한다.
+3. '1'를 클릭하면 숫자가 가려지고, 순서를 기억하여 차례로 클릭한다.
+4. 순서를 틀릴 때까지 2번 과정으로 올라가서 게임을 수행한다.
+
+## 개발환경
+
+- 언어 및 프레임워크: Dart, Flutter
+- IDE: VSCode
+- DB: FireStoreDB
+- 형상관리: Git, Github
