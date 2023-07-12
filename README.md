@@ -33,6 +33,7 @@
 ## 개발환경
 
 - 언어 및 프레임워크: Dart, Flutter
+- 라이브러리: GetX
 - IDE: VSCode
 - DB: FireStoreDB
 - 형상관리: Git, Github
