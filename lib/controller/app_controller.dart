@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:chimpanzee_game/component/result_dialog.dart';
+import 'package:chimpanzee_game/constants/constants.dart';
 import 'package:chimpanzee_game/helper/firebase_helper.dart';
 import 'package:chimpanzee_game/page/home.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,13 @@ class AppController extends GetxController {
   }
 
   void initGame() {
-    gameList = RxList<String>.filled(40, '');
-    int number_count = min((level ~/ 3) + 5, 20);
+    gameList = RxList<String>.filled(GameConstants.maxTilesSize, '');
+    int numberCount = min(
+        (level ~/ GameConstants.gameIncrementRatio) +
+            GameConstants.defaultGameTilesSize,
+        GameConstants.maxGameTilesSize);
 
-    for (int i = 1; i <= number_count; i++) {
+    for (int i = 1; i <= numberCount; i++) {
       int tmp = Random().nextInt(gameList.length);
       while (gameList[tmp] != '') {
         tmp = Random().nextInt(gameList.length);
@@ -50,8 +54,12 @@ class AppController extends GetxController {
         onGame(true);
       }
       // 마지막 번호를 눌렀을 경우
-      int number_count = min((level ~/ 3) + 5, 20);
-      if (_counter == number_count) {
+      int numberCount = min(
+          (level ~/ GameConstants.gameIncrementRatio) +
+              GameConstants.defaultGameTilesSize,
+          GameConstants.maxGameTilesSize);
+
+      if (_counter == numberCount) {
         level++;
         Get.to(
           const Home(),
@@ -60,7 +68,7 @@ class AppController extends GetxController {
 
         var diffSecond =
             (DateTime.now().millisecondsSinceEpoch - _startTime).toInt();
-        timeCount += diffSecond.floor() / 1000;
+        timeCount += diffSecond.floor() / GameConstants.roundingDigit;
         timeCount = _fixDecimalPoint(timeCount);
       }
       gameList[gameList.indexOf(click)] = '';
